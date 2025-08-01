@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create a New Trip</title>
+  <style>
+    .container {
+      background-color: #2d2b42;
+      padding: 2rem;
+      border-radius: 16px;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 2rem;
+    }
+
+    label {
+      font-size: 1rem;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    input[type="text"],
+    select {
+      width: 100%;
+      padding: 10px 15px;
+      margin-bottom: 1.5rem;
+      border-radius: 8px;
+      background-color: #1e1e2f;
+      border: 1px solid #444;
+      color: white;
+      font-size: 1rem;
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: #8ab4f8;
+      box-shadow: 0 0 0 2px rgba(138, 180, 248, 0.3);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #4caf50;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #43a047;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide-in centered-container">
+  <div class="container">
+    <h2>🌍 Create a New Trip</h2>
+    <form method="post" action="/create-trip">
+      <label for="trip_name">Trip Name:</label>
+      <input type="text" id="trip_name" name="trip_name" required>
+
+      <label for="group_id">Select Group:</label>
+      <select id="group_id" name="group_id" required>
+        {% for group in groups %}
+          <option value="{{ group.g_id }}">{{ group.name }}</option>
+        {% endfor %}
+      </select>
+
+      <button type="submit">🚀 Create Trip</button>
+    </form>
+  </div></div>
+</body>
+</html>

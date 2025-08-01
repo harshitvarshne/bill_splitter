@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Settlements</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #141e30, #243b55);
+      color: #f0f0f0;
+    }
+
+    header, footer {
+      display: none;
+    }
+
+    .header-bar {
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .header-bar h1 {
+      margin: 0;
+      color: white;
+      font-size: 1.6rem;
+    }
+
+    .header-bar nav a {
+      color: #ffffff;
+      text-decoration: none;
+      margin-left: 1.5rem;
+      font-weight: 500;
+    }
+
+    .header-bar nav a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: rgba(0, 0, 0, 0.2);
+      font-size: 0.9rem;
+    }
+
+    .container {
+      background-color: #2d2b42;
+      padding: 2rem;
+      border-radius: 16px;
+      max-width: 1000px;
+      width: 95%;
+      margin: 2rem auto;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    label {
+      font-weight: 500;
+    }
+
+    select {
+      padding: 0.4rem;
+      border-radius: 6px;
+      border: none;
+      background-color: #44445a;
+      color: white;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+      background-color: #1e1e2f;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 1rem;
+      text-align: left;
+    }
+
+    th {
+      background-color: #3b3b5e;
+      font-weight: 600;
+    }
+
+    tr:nth-child(even) {
+      background-color: #2a2a3e;
+    }
+
+    tr:hover {
+      background-color: #404062;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 0.85rem;
+    }
+
+    .settled {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .pending {
+      background-color: #f44336;
+      color: white;
+    }
+
+    button {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background-color: #3b82f6;
+      color: white;
+      font-weight: 600;
+    }
+
+    button:hover {
+      background-color: #2563eb;
+    }
+
+    a button {
+      background-color: #6b7280;
+    }
+
+    a button:hover {
+      background-color: #4b5563;
+    }
+
+    form {
+      margin: 0;
+    }
+
+    .back-btn {
+      display: block;
+      margin-top: 2rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header id="header">
+    <div class="header-bar">
+      <h1>Bill Splitter</h1>
+      <nav>
+        <a href="/dashboard">Home</a>
+        <a href="/settings">User Settings</a>
+        <a href="/logout">Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+    <h1>💳 My Settlements</h1>
+    {% if request.query_params.get('settled') %}
+  <p style="background-color:#4CAF50; color:white; padding:10px; border-radius:8px; text-align:center; font-weight:500;">
+    ✅ Payment marked as settled successfully!
+  </p>
+{% endif %}
+
+
+    <form method="get" action="/my-settlements">
+    <label for="member">Filter by Member:</label>
+    <select name="member_name" id="member" onchange="this.form.submit()">
+        <option value="">-- All Members --</option>
+        {% for name in member_names %}
+            <option value="{{ name }}" {% if name == selected_member %}selected{% endif %}>{{ name }}</option>
+        {% endfor %}
+    </select>
+
+    <label>
+        <input type="checkbox" name="show_all" value="true" onchange="this.form.submit()" {% if show_all %}checked{% endif %}>
+        Show Settled Also
+    </label>
+</form>
+
+    {% if settlements %}
+      <table>
+        <thead>
+          <tr>
+            <th>Payer</th>
+            <th>Receiver</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for s in settlements %}
+            <tr>
+              <td>{{ s.payer_name }}</td>
+              <td>{{ s.receiver_name }}</td>
+              <td>₹{{ "%.2f"|format(s.amount) }}</td>
+              <td>
+                {% if s.is_settled %}
+                  <span class="badge settled">Settled</span>
+                {% else %}
+                  <span class="badge pending">Pending</span>
+                {% endif %}
+              </td>
+              <td>
+                {% if not s.is_settled %}
+                  <form method="post" action="/settle-payment" style="display:inline;">
+                    <input type="hidden" name="group_id" value="{{ s.group_id }}">
+                    <input type="hidden" name="payer" value="{{ s.payer_name }}">
+                    <input type="hidden" name="receiver" value="{{ s.receiver_name }}">
+                    <input type="hidden" name="amount" value="{{ s.amount }}">
+                    <button type="submit">✅ Mark as Settled</button>
+                  </form>
+                {% else %}
+                  ---
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>No unsettled payments found.</p>
+    {% endif %}
+
+    <div class="back-btn">
+      <a href="/dashboard"><button>⬅️ Back to Dashboard</button></a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer id="footer">
+    &copy; 2025 Bill Splitter App. All rights reserved.
+  </footer>
+
+  <!-- JS to toggle header/footer based on iframe status -->
+  <script>
+    if (window.top === window.self) {
+      document.getElementById("header").style.display = "block";
+      document.getElementById("footer").style.display = "block";
+    }
+  </script>
+
+</body>
+</html>

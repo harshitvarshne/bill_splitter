@@ -1,0 +1,25 @@
+<h2>Settlement Details</h2>
+<table border="1">
+    <tr>
+        <th>Payer</th>
+        <th>Receiver</th>
+        <th>Amount</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+    {% for s in settlements %}
+    <tr>
+        <td>{{ s.payer.name }}</td>
+        <td>{{ s.receiver.name }}</td>
+        <td>₹{{ '%.2f'|format(s.amount) }}</td>
+        <td>{{ "Settled" if s.settled else "Pending" }}</td>
+        <td>
+            {% if not s.settled %}
+            <form action="/settle/{{ s.id }}" method="post">
+                <button type="submit">Mark as Settled</button>
+            </form>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>

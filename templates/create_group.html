@@ -1,0 +1,22 @@
+<div class="slide-in centered-container">
+  <h2>➕ Create a New Group</h2>
+  <form action="/create-group" method="post" style="display: flex; flex-direction: column; gap: 1rem; max-width: 400px; width: 100%;">
+    <label style="font-weight: 500;">
+      Group Name:
+      <input
+        type="text"
+        name="group_name"
+        required
+        style="padding: 0.5rem; border-radius: 6px; border: none; width: 100%; background-color: #2e2e3a; color: #fff;"
+      >
+    </label>
+
+    <input type="hidden" name="user_id" value="{{ request.session['user_id'] }}">
+
+    <button
+      type="submit"
+      style="padding: 0.6rem 1.2rem; background-color: #3b82f6; color: #fff; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
+      ✅ Create Group
+    </button>
+  </form>
+</div>

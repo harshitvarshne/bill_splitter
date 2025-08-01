@@ -1,0 +1,18 @@
+<div class="centered-container">
+  <h2>💰 Split Bill for Group: {{ group.name }}</h2>
+  <form method="post" style="display:flex; flex-direction: column; gap: 1rem; max-width: 400px;">
+    <label style="font-weight: 500; color: #ddd;">
+      Total Amount:
+      <input
+        type="number"
+        name="amount"
+        required
+        style="padding: 0.5rem; border-radius: 6px; border: none; background-color: #2e2e3a; color: #fff;"
+      >
+    </label>
+    <bu tton type="submit"
+      style="padding: 0.6rem 1.2rem; background-color: #3b82f6; color: #fff; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
+      Split
+    </button>
+  </form>
+</div>

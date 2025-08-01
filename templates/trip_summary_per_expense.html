@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Trip Expense Breakdown</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        .expense-card {
+            border: 1px solid #aaa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #444;
+        }
+        h2 {
+            margin-bottom: 5px;
+        }
+        ul {
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>📋 Trip Expense Summary</h1>
+
+    {% if expense_summaries %}
+        {% for summary in expense_summaries %}
+            <div class="expense-card">
+                <h2>🧾 {{ summary.description }} ({{ summary.category }})</h2>
+                <p><strong>Date:</strong> {{ summary.date }}</p>
+                <p><strong>Total Cost:</strong> ₹{{ summary.total }}</p>
+                <p><strong>Fair Share per Member:</strong> ₹{{ summary.fair_share }}</p>
+
+                <h3>💰 Balances:</h3>
+                <ul>
+                    {% for name, amount in summary.balances.items() %}
+                        <li>
+                            {{ name }}: ₹{{ amount }}
+                            {% if amount < 0 %}
+                                (owes)
+                            {% elif amount > 0 %}
+                                (is owed)
+                            {% else %}
+                                (settled)
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+
+                <h3>🤝 Settlements:</h3>
+                {% if summary.settlements %}
+                    <ul>
+                        {% for settlement in summary.settlements %}
+                            <li>{{ settlement }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No settlements needed.</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No expenses recorded yet for this group.</p>
+    {% endif %}
+
+    <p><a href="/trip">➕ Add Another Expense</a></p>
+</body>
+</html>

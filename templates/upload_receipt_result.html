@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Receipt Upload Result</title>
+</head>
+<body>
+  <h2>🧾 OCR Result:</h2>
+  <pre>{{ ocr_text }}</pre>
+
+  <h2>🤖 Ollama Parsed Data:</h2>
+  {% if ollama_result.error %}
+    <p style="color:red;">Error: {{ ollama_result.error }}</p>
+    <pre>{{ ollama_result.raw }}</pre>
+  {% else %}
+    <p><strong>Total Amount:</strong> ₹{{ ollama_result.total_amount }}</p>
+    <p><strong>Paid By:</strong> {{ ollama_result.paid_by }}</p>
+    <h3>Items:</h3>
+    <ul>
+      {% for item in ollama_result.items %}
+        <li>{{ item.name }} — ₹{{ item.price }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <br>
+  <a href="/trip/{{ trip.id }}/add-expense"><button>← Back to Add Expense</button></a>
+</body>
+</html>

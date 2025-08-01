@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Trip Settlement: {{ trip.name }}</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #3a3451, #79728e);
+      color: #fff;
+    }
+
+    header, footer {
+      background-color: #1f1d30;
+      padding: 1rem 2rem;
+      text-align: center;
+      color: #ffffffcc;
+      font-weight: bold;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+      color: #fff;
+    }
+
+    .container {
+      background-color: #2d2b42;
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    h2, h3 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1.1rem;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      border: 1px solid #555;
+      text-align: center;
+    }
+
+    th {
+      background-color: #3d3b57;
+    }
+
+    td {
+      background-color: #1e1d2f;
+    }
+
+    ul {
+      list-style-type: '💸 ';
+      margin-left: 2rem;
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: bold;
+      color: white;
+      background-color: #4caf50;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin: 0.5rem;
+    }
+
+    button:hover {
+      background-color: #43a047;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .actions {
+      text-align: center;
+    }
+
+    footer {
+      margin-top: 2rem;
+      font-size: 0.9rem;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: white;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-item {
+      color: #ccc;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1rem;
+      transition: color 0.3s;
+    }
+
+    .nav-item:hover {
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav-container">
+      <div class="logo">Bill Splitter</div>
+      <nav class="nav-links">
+        <a href="/dashboard" class="nav-item">🏠 Home</a>
+        <a href="/settings" class="nav-item">⚙️ User Settings</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+    <h2>📊 Trip Settlement: {{ trip.name }}</h2>
+    <p><strong>Total Trip Amount:</strong> ₹{{ total }}</p>
+    <p><strong>Per Person Share:</strong> ₹{{ per_person }}</p>
+
+    <h3>📒 All Expenses</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Category</th>
+          <th>Description</th>
+          <th>Amount</th>
+          <th>Paid By</th>
+          <th>Split Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for e in expenses %}
+        <tr>
+          <td>{{ e.created_at.strftime('%Y-%m-%d') }}</td>
+          <td>{{ e.category }}</td>
+          <td>{{ e.description }}</td>
+          <td>₹{{ e.total_amount }}</td>
+          <td>{{ e.paid_by }}</td>
+          <td>{{ e.split_type | title }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+
+    {% if expenses %}
+      <p><strong>Split Methods Used</strong></p>
+      <ul>
+        {% for e in expenses %}
+          <li>
+            <strong>{{ e.description }}</strong> (₹{{ e.total_amount }}) —
+            <em>Split by: {{ e.split_type | title }}</em>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    <h3>💰 Final Settlement Instructions</h3>
+    <h4>💸 Who Owes Whom:</h4>
+    <ul>
+      {% if settlements %}
+        {% for s in settlements %}
+          {% if s is string %}
+            <li>{{ s }}</li>
+          {% else %}
+            <li>{{ s.from }} pays ₹{{ s.amount }} to {{ s.to }}</li>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        <li>✅ All dues are settled!</li>
+      {% endif %}
+    </ul>
+
+    <div class="actions">
+      <a href="/trip/{{ trip.id }}/export"><button>⬇️ Download Excel Report</button></a>
+      <a href="/trip/{{ trip.id }}/add-expense"><button style="background-color:#6a5acd;">➕ Add More Expenses</button></a>
+      <a href="/my-settlements"><button style="background-color:#4d94ff;"> 📃 Settlements</button></a>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 Trip Manager | All rights reserved 🚀
+  </footer>
+</body>
+</html>

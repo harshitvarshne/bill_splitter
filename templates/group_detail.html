@@ -1,0 +1,12 @@
+<h1>Group: {{ group.name }}</h1>
+
+<h2>Members:</h2>
+<ul>
+    {% for member in members %}
+        <li>{{ member.user.name }} ({{ member.user.email }})</li>
+    {% endfor %}
+    <li><a href="/group/{{ group.g_id }}/members">👥 View Members Table</a></li>
+</ul>
+
+
+<a href="/group/{{ group.g_id }}/delete" onclick="return confirm('Are you sure?')">Delete Group</a>

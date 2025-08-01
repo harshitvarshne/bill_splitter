@@ -1,0 +1,634 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--  <meta charset="UTF-8">-->
+<!--  <title>Add Expense - {{ trip.name }}</title>-->
+<!--  <style>-->
+<!--    body {-->
+<!--      margin: 0;-->
+<!--      padding: 0;-->
+<!--      font-family: 'Segoe UI', sans-serif;-->
+<!--      background: linear-gradient(135deg, #3a3451, #79728e);-->
+<!--      color: #fff;-->
+<!--      min-height: 100vh;-->
+<!--      display: flex;-->
+<!--      flex-direction: column;-->
+<!--    }-->
+
+<!--    header {-->
+<!--      background-color: #1f1d30;-->
+<!--      padding: 1rem 2rem;-->
+<!--      display: flex;-->
+<!--      justify-content: space-between;-->
+<!--      align-items: center;-->
+<!--      border-bottom: 1px solid rgba(255, 255, 255, 0.1);-->
+<!--    }-->
+
+<!--    .logo {-->
+<!--      font-size: 1.5rem;-->
+<!--      font-weight: bold;-->
+<!--      color: white;-->
+<!--    }-->
+
+<!--    .nav-links {-->
+<!--      display: flex;-->
+<!--      gap: 1.5rem;-->
+<!--    }-->
+
+<!--    .nav-item {-->
+<!--      color: #ccc;-->
+<!--      text-decoration: none;-->
+<!--      font-weight: 500;-->
+<!--      font-size: 1rem;-->
+<!--      transition: color 0.3s;-->
+<!--    }-->
+
+<!--    .nav-item:hover {-->
+<!--      color: #ffffff;-->
+<!--    }-->
+
+<!--    .container {-->
+<!--      background-color: #2d2b42;-->
+<!--      padding: 2rem;-->
+<!--      border-radius: 16px;-->
+<!--      max-width: 600px;-->
+<!--      width: 90%;-->
+<!--      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);-->
+<!--      border: 1px solid rgba(255, 255, 255, 0.1);-->
+<!--      margin: 2rem auto;-->
+<!--      flex: 1;-->
+<!--    }-->
+
+<!--    h2 {-->
+<!--      text-align: center;-->
+<!--      font-size: 1.7rem;-->
+<!--      margin-bottom: 1.8rem;-->
+<!--    }-->
+
+<!--    label {-->
+<!--      font-size: 1rem;-->
+<!--      display: block;-->
+<!--      margin-bottom: 0.4rem;-->
+<!--    }-->
+
+<!--    input[type="text"],-->
+<!--    input[type="number"],-->
+<!--    select {-->
+<!--      width: 100%;-->
+<!--      padding: 10px 15px;-->
+<!--      margin-bottom: 1.2rem;-->
+<!--      border-radius: 8px;-->
+<!--      background-color: #1e1e2f;-->
+<!--      border: 1px solid #444;-->
+<!--      color: white;-->
+<!--      font-size: 1rem;-->
+<!--    }-->
+
+<!--    input:focus,-->
+<!--    select:focus {-->
+<!--      outline: none;-->
+<!--      border-color: #8ab4f8;-->
+<!--      box-shadow: 0 0 0 2px rgba(138, 180, 248, 0.3);-->
+<!--    }-->
+
+<!--    button {-->
+<!--      width: 100%;-->
+<!--      padding: 12px;-->
+<!--      background-color: #4caf50;-->
+<!--      border: none;-->
+<!--      color: white;-->
+<!--      font-size: 1rem;-->
+<!--      font-weight: bold;-->
+<!--      border-radius: 8px;-->
+<!--      cursor: pointer;-->
+<!--      transition: background 0.3s;-->
+<!--      margin-top: 1rem;-->
+<!--    }-->
+
+<!--    button:hover {-->
+<!--      background-color: #43a047;-->
+<!--    }-->
+
+<!--    .end-trip-button {-->
+<!--      background-color: #6a5acd;-->
+<!--      margin-top: 1.5rem;-->
+<!--    }-->
+
+<!--    .end-trip-button:hover {-->
+<!--      background-color: #5b4cc4;-->
+<!--    }-->
+
+<!--    hr {-->
+<!--      margin: 2rem 0 1rem;-->
+<!--      border: none;-->
+<!--      height: 1px;-->
+<!--      background-color: #555;-->
+<!--    }-->
+
+<!--    a {-->
+<!--      text-decoration: none;-->
+<!--    }-->
+
+<!--    footer {-->
+<!--      background-color: #1f1d30;-->
+<!--      text-align: center;-->
+<!--      padding: 1rem 0;-->
+<!--      color: #aaa;-->
+<!--      font-size: 0.9rem;-->
+<!--      border-top: 1px solid rgba(255, 255, 255, 0.1);-->
+<!--      font-weight: bold;-->
+<!--    }-->
+
+<!--  </style>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--  <header>-->
+<!--    <div class="logo">Bill Splitter</div>-->
+<!--    <nav class="nav-links">-->
+<!--      <a href="/dashboard" class="nav-item">🏠 Home</a>-->
+<!--      <a href="/settings" class="nav-item">⚙️ User Settings</a>-->
+<!--    </nav>-->
+<!--  </header>-->
+
+<!--  <div class="container">-->
+<!--    <h2>💸 Add Expense to Trip: {{ trip.name }}</h2>-->
+<!--    <form method="post" action="/trip/{{ trip.id }}/add-expense">-->
+<!--      <label for="category">Category:</label>-->
+<!--      <input type="text" id="category" name="category" required>-->
+
+<!--      <label for="description">Description:</label>-->
+<!--      <input type="text" id="description" name="description" required>-->
+
+<!--      <label for="total_amount">Total Amount:</label>-->
+<!--      <input type="number" id="total_amount" name="total_amount" step="0.01" required>-->
+
+<!--      <label for="paid_by">Paid By:</label>-->
+<!--      <select id="paid_by" name="paid_by" required>-->
+<!--        {% for member in members %}-->
+<!--          <option value="{{ member.name }}">{{ member.name }}</option>-->
+<!--        {% endfor %}-->
+<!--      </select>-->
+
+<!--      <button type="submit">➕ Add Expense</button>-->
+<!--    </form>-->
+
+<!--    <hr>-->
+
+<!--    <a href="/trip/{{ trip.id }}/end">-->
+<!--      <button class="end-trip-button">✅ End Trip & View Settlement</button>-->
+<!--    </a>-->
+<!--  </div>-->
+
+<!--  <footer>-->
+<!--    © 2025 Trip Manager | All rights reserved 🚀-->
+<!--  </footer>-->
+
+<!--</body>-->
+<!--</html>-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Expense - {{ trip.name }}</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #3a3451, #79728e);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background-color: #1f1d30;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: white;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-item {
+      color: #ccc;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1rem;
+      transition: color 0.3s;
+    }
+
+    .nav-item:hover {
+      color: #ffffff;
+    }
+
+    .container {
+      background-color: #2d2b42;
+      padding: 2rem;
+      border-radius: 16px;
+      max-width: 600px;
+      width: 90%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin: 2rem auto;
+      flex: 1;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 1.7rem;
+      margin-bottom: 1.8rem;
+    }
+
+    label {
+      font-size: 1rem;
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 10px 15px;
+      margin-bottom: 1.2rem;
+      border-radius: 8px;
+      background-color: #1e1e2f;
+      border: 1px solid #444;
+      color: white;
+      font-size: 1rem;
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: #8ab4f8;
+      box-shadow: 0 0 0 2px rgba(138, 180, 248, 0.3);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #4caf50;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 1rem;
+    }
+
+    button:hover {
+      background-color: #43a047;
+    }
+
+    .end-trip-button {
+      background-color: #6a5acd;
+      margin-top: 1.5rem;
+    }
+
+    .end-trip-button:hover {
+      background-color: #5b4cc4;
+    }
+
+    hr {
+      margin: 2rem 0 1rem;
+      border: none;
+      height: 1px;
+      background-color: #555;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    footer {
+      background-color: #1f1d30;
+      text-align: center;
+      padding: 1rem 0;
+      color: #aaa;
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      font-weight: bold;
+    }
+    .split-methods {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .split-methods button {
+      flex: 1;
+      margin: 0 4px;
+      background-color: #555;
+    }
+
+    .split-methods button.active {
+      background-color: #4caf50;
+    }
+
+    .split-section {
+      display: none;
+      margin-top: 1rem;
+    }
+
+    .split-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 6px 0;
+    }
+
+    .split-row label {
+      flex: 1;
+    }
+
+    .split-row input {
+      flex: 0.5;
+      margin-left: 10px;
+    }
+
+    #percent-warning {
+      color: #ff5252;
+      font-weight: bold;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="logo">Bill Splitter</div>
+  <nav class="nav-links">
+    <a href="/dashboard" class="nav-item">🏠 Home</a>
+    <a href="/settings" class="nav-item">⚙️ User Settings</a>
+  </nav>
+</header>
+
+<div class="container">
+  <h2>💸 Add Expense to Trip: {{ trip.name }}</h2>
+  <form method="post" action="/trip/{{ trip.id }}/add-expense">
+    <label for="category">Category:</label>
+    <input type="text" id="category" name="category" required>
+
+    <label for="description">Description:</label>
+    <input type="text" id="description" name="description" required>
+
+    <label for="total_amount">Total Amount:</label>
+    <input type="number" id="total_amount" name="total_amount" step="0.01" required>
+
+    <label for="paid_by">Paid By:</label>
+    <select id="paid_by" name="paid_by" required>
+      {% for member in members %}
+        <option value="{{ member.name }}">{{ member.name }}</option>
+      {% endfor %}
+    </select>
+
+    <label>Split Method:</label>
+    <div class="split-methods">
+      <button type="button" class="split-btn active" data-method="equally">Equally</button>
+      <button type="button" class="split-btn" data-method="percentages">Percent</button>
+<!--      <button type="button" class="split-btn" data-method="shares">Shares</button>-->
+      <button type="button" class="split-btn" data-method="amounts">Amounts</button>
+    </div>
+
+    <input type="hidden" id="split_method" name="split_method" value="equally">
+
+    <!-- Hidden member names always submitted -->
+    {% for member in members %}
+      <input type="hidden" name="member_names" value="{{ member.name }}">
+    {% endfor %}
+
+    <!-- Equally -->
+    <div class="split-section" id="split-equally" style="display:block;">
+      <p>Split will be equal among all members.</p>
+    </div>
+
+    <!-- Percentages -->
+    <div class="split-section" id="split-percentages" style="display:none;">
+      {% for member in members %}
+        <div class="split-row">
+          <label>{{ member.name }}</label>
+          <input type="number" name="percentages" class="percent-input" step="0.01" value="0">
+        </div>
+      {% endfor %}
+      <div id="percent-warning" style="color:red; font-weight:bold;"></div>
+    </div>
+
+    <!-- Shares -->
+<!--    <div class="split-section" id="split-shares" style="display:none;">-->
+<!--      {% for member in members %}-->
+<!--        <div class="split-row">-->
+<!--          <label>{{ member.name }}</label>-->
+<!--          <input type="number" name="shares" step="1" min="0" value="0">-->
+<!--        </div>-->
+<!--      {% endfor %}-->
+<!--    </div>-->
+
+    <!-- Amounts -->
+
+    <div class="split-section" id="split-amounts" style="display:none;">
+      {% for member in members %}
+        <div class="split-row">
+          <label>{{ member.name }}</label>
+          <input type="number" name="amounts" step="0.01" value="0">
+        </div>
+      {% endfor %}
+    <div id="remaining-bar" style="display:none; background:#2f2b3c; padding:10px 20px; margin-bottom:15px; border-radius:10px; font-weight:bold;">
+  Remaining: <span id="entered-amount">₹0.00</span> / <span id="total-amount">₹0.00</span>
+  <span id="diff-amount" style="float:right;"></span>
+</div>
+    </div>
+    <button type="submit" id="submit-expense-btn">➕ Add Expense</button>
+  </form>
+ <!-- 📷 Upload Receipt Button (new form added) -->
+<!--  <form method="post" enctype="multipart/form-data" action="/trip/{{ trip.id }}/upload-receipt">-->
+<!--  <label>Upload Receipt (Image)</label>-->
+<!--  <input type="file" name="receipt_img" accept="image/*" required>-->
+<!--  <button type="submit">📷 Upload Receipt</button>-->
+<!--</form>-->
+  <hr>
+  <a href="/trip/{{ trip.id }}/end">
+    <button class="end-trip-button">✅ End Trip & View Settlement</button>
+  </a>
+</div>
+
+<footer>
+  © 2025 Trip Manager | All rights reserved 🚀
+</footer>
+
+<script>
+  const buttons = document.querySelectorAll('.split-btn');
+  const sections = document.querySelectorAll('.split-section');
+  const hiddenInput = document.getElementById('split_method');
+
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      buttons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+      hiddenInput.value = button.dataset.method;
+
+      sections.forEach(sec => sec.style.display = 'none');
+      document.getElementById('split-' + button.dataset.method).style.display = 'block';
+    });
+  });
+
+  // // Percent validation
+  // const percentInputs = document.querySelectorAll('.percent-input');
+  // const warningDiv = document.getElementById('percent-warning');
+  //
+  // percentInputs.forEach(input => {
+  //   input.addEventListener('input', () => {
+  //     const total = Array.from(percentInputs).reduce((sum, inp) => sum + parseFloat(inp.value || 0), 0);
+  //     if (total > 100) {
+  //       warningDiv.textContent = `❌ Percent exceeds 100%. Currently: ${total.toFixed(2)}%`;
+  //     } else if (total < 100) {
+  //       warningDiv.textContent = `⚠️ Total percent is ${total.toFixed(2)}%. It must be exactly 100%.`;
+  //     } else {
+  //       warningDiv.textContent = '';
+  //     }
+  //   });
+  // });
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const totalInput = document.getElementById('total_amount');
+  const splitMethodInput = document.getElementById('split_method');
+  const submitButton = document.getElementById('submit-expense-btn');
+
+  const remainingBar = document.getElementById('remaining-bar');
+  const enteredAmount = document.getElementById('entered-amount');
+  const totalAmount = document.getElementById('total-amount');
+  const diffAmount = document.getElementById('diff-amount');
+
+  function validateAmounts() {
+    const method = splitMethodInput.value;
+
+    if (method !== 'amounts') {
+      remainingBar.style.display = 'none';
+      submitButton.disabled = false;
+      submitButton.style.opacity = '1';
+      submitButton.style.cursor = 'pointer';
+      return;
+    }
+
+    remainingBar.style.display = 'block';
+
+    const total = parseFloat(totalInput.value) || 0;
+    const amountInputs = document.querySelectorAll('input[name="amounts"]');
+    let sum = 0;
+
+    amountInputs.forEach(input => {
+      const val = parseFloat(input.value) || 0;
+      sum += val;
+    });
+
+    const diff = Math.round((sum - total) * 100) / 100;
+
+    enteredAmount.textContent = `₹${sum.toFixed(2)}`;
+    totalAmount.textContent = `₹${total.toFixed(2)}`;
+
+    if (diff > 0) {
+      diffAmount.textContent = `+₹${diff.toFixed(2)} extra`;
+      diffAmount.style.color = "#ff5252";
+      submitButton.disabled = true;
+      submitButton.style.opacity = "0.5";
+      submitButton.style.cursor = "not-allowed";
+    } else if (diff < 0) {
+      diffAmount.textContent = `₹${Math.abs(diff).toFixed(2)} less`;
+      diffAmount.style.color = "#f1c40f";
+      submitButton.disabled = true;
+      submitButton.style.opacity = "0.5";
+      submitButton.style.cursor = "not-allowed";
+    } else {
+      diffAmount.textContent = "✅ Matched";
+      diffAmount.style.color = "#4caf50";
+      submitButton.disabled = false;
+      submitButton.style.opacity = "1";
+      submitButton.style.cursor = "pointer";
+    }
+  }
+  // Run on total input, amounts input, and method change
+  document.addEventListener('input', function (e) {
+    if (e.target.name === 'amounts' || e.target.id === 'total_amount') {
+      validateAmounts();
+    }
+  });
+
+  document.querySelectorAll('.split-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      setTimeout(validateAmounts, 50);  // Allow split_method to update
+    });
+  });
+  validateAmounts(); // Initial
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const percentInputs = document.querySelectorAll('.percent-input');
+  const warningDiv = document.getElementById('percent-warning');
+  const submitButton = document.getElementById('submit-expense-btn');
+  const splitMethodInput = document.getElementById('split_method');
+
+  function validatePercentages() {
+    const method = splitMethodInput.value;
+    if (method !== 'percentages') {
+      warningDiv.textContent = '';
+      submitButton.disabled = false;
+      submitButton.style.opacity = '1';
+      submitButton.style.cursor = 'pointer';
+      return;
+    }
+
+    const total = Array.from(percentInputs).reduce((sum, inp) => sum + parseFloat(inp.value || 0), 0);
+    const rounded = Math.round(total * 100) / 100;
+
+    if (rounded > 100) {
+      warningDiv.textContent = `❌ Percent exceeds 100%. Currently: ${rounded.toFixed(2)}%`;
+      submitButton.disabled = true;
+      submitButton.style.opacity = "0.5";
+      submitButton.style.cursor = "not-allowed";
+    } else if (rounded < 100) {
+      warningDiv.textContent = `⚠️ Total percent is ${rounded.toFixed(2)}%. It must be exactly 100%.`;
+      submitButton.disabled = true;
+      submitButton.style.opacity = "0.5";
+      submitButton.style.cursor = "not-allowed";
+    } else {
+      warningDiv.textContent = "✅ Percent total is valid.";
+      warningDiv.style.color = "#4caf50";
+      submitButton.disabled = false;
+      submitButton.style.opacity = "1";
+      submitButton.style.cursor = "pointer";
+    }
+  }
+
+  percentInputs.forEach(input => {
+    input.addEventListener('input', validatePercentages);
+  });
+
+  // Re-validate when switching split method
+  document.querySelectorAll('.split-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      setTimeout(validatePercentages, 50);
+    });
+  });
+
+  validatePercentages(); // Initial run
+});
+</script>-
+</body>
+</html>

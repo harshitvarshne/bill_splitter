@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Action Not Allowed</title>
+    <meta http-equiv="refresh" content="3;url=/dashboard" />
+    <style>
+        body {
+            background-color: #1e1e2f;
+            color: #f5f5f5;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .message-box {
+            background-color: #2d2b42;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            font-size: 1rem;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="message-box">
+        <h1>{{ message }}</h1>
+        <p>You will be redirected to your dashboard shortly...</p>
+    </div>
+</body>
+</html>

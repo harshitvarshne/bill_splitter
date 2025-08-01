@@ -1,0 +1,27 @@
+<!-- templates/trip_form.html -->
+<h2>Add Trip Expense</h2>
+<form method="post" action="/trip">
+  <label for="group_id">Select Group:</label><br>
+  <select name="group_id" required>
+    {% for group in groups %}
+      <option value="{{ group.g_id }}">{{ group.name }}</option>
+    {% endfor %}
+  </select><br><br>
+
+  <label for="description">Description:</label><br>
+  <input type="text" name="description" required><br><br>
+
+  <label for="total_amount">Total Amount (₹):</label><br>
+  <input type="number" name="total_amount" step="0.01" required><br><br>
+
+  <label for="paid_by">Paid By:</label><br>
+  <select name="paid_by" required>
+    {% for group in groups %}
+      {% for member in group.members %}
+        <option value="{{ member.name }}">{{ member.name }}</option>
+      {% endfor %}
+    {% endfor %}
+  </select><br><br>
+
+  <button type="submit">Submit</button>
+</form>

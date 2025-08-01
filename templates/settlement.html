@@ -1,0 +1,19 @@
+<h2>Trip: {{ trip.name }}</h2>
+
+<h3>🧾 Expense Summary</h3>
+<ul>
+    {% for expense in expenses %}
+    <li>
+        <b>{{ expense.description }}</b> | ₹{{ expense.total_amount }} |
+        Paid by: {{ expense.paid_by }} |
+        Split type: {{ expense.split_type }}
+    </li>
+    {% endfor %}
+</ul>
+
+<h3>💰 Final Settlements</h3>
+<ul>
+    {% for s in settlements %}
+        <li>{{ s.from }} pays ₹{{ s.amount }} to {{ s.to }}</li>
+    {% endfor %}
+</ul>
