@@ -1251,3 +1251,130 @@ def view_my_settlements(
         "selected_member": member_name,
         "show_all": show_all
     })
+@app.get("/forgot-password", response_class=HTMLResponse)
+def forgot_password_form(request: Request):
+    return templates.TemplateResponse("forgot_password.html", {"request": request})
+
+
+import uuid
+
+# Temporary token store: email → token
+reset_tokens = {}
+
+
+@app.post("/forgot-password")
+def handle_forgot_password(
+        request: Request,
+        email: str = Form(...),
+        db: Session = Depends(get_db)
+):
+    user = db.query(User).filter_by(email=email).first()
+    if user:
+        token = str(uuid.uuid4())
+        reset_tokens[email] = token
+        reset_link = f"http://localhost:8000/reset-password?email={email}&token={token}"
+
+        # Send reset link (you could send via email; here, just print)
+        send_otp_email(email, f"Click the link to reset your password:\n\n{reset_link}")
+
+    # Show this message whether user exists or not (for security)
+    return templates.TemplateResponse("reset_link_sent.html", {
+        "request": request,
+        "email": email
+    })
+@app.get("/reset-password", response_class=HTMLResponse)
+def show_reset_password_form(
+    request: Request,
+    email: str,
+    token: str
+):
+    # Validate token
+    if reset_tokens.get(email) != token:
+        return HTMLResponse("❌ Invalid or expired token", status_code=400)
+
+    return templates.TemplateResponse("reset_password.html", {
+        "request": request,
+        "email": email,
+        "token": token
+    })
+@app.post("/reset-password")
+def reset_password(
+    request: Request,
+    email: str = Form(...),
+    token: str = Form(...),
+    new_password: str = Form(...),
+    confirm_password: str = Form(...),
+    db: Session = Depends(get_db)
+):
+    if new_password != confirm_password:
+        return HTMLResponse("❌ Passwords do not match", status_code=400)
+
+    if reset_tokens.get(email) != token:
+        return HTMLResponse("❌ Invalid or expired token", status_code=400)
+
+    user = db.query(User).filter_by(email=email).first()
+    if not user:
+        return HTMLResponse("❌ User not found", status_code=404)
+
+    # Compare new password with old one
+    if bcrypt.verify(new_password, user.hashed_password):
+        html_content="""
+        <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Password Reset Error</title>
+  <meta http-equiv="refresh" content="3;url=javascript:history.back()">
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(to right, #141e30, #243b55);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #f8d7da;
+    }
+
+    .message-box {
+      background-color: #2d2b42;
+      padding: 2rem 2.5rem;
+      border-radius: 12px;
+      text-align: center;
+      border: 1px solid #f44336;
+      box-shadow: 0 0 10px rgba(244, 67, 54, 0.4);
+    }
+
+    h2 {
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 0.95rem;
+      color: #ffaaaa;
+    }
+  </style>
+</head>
+<body>
+  <div class="message-box">
+    <h2>❌ New password must be different from the current password.</h2>
+    <p>Redirecting back in 3 seconds...</p>
+  </div>
+</body>
+</html>
+"""
+        return HTMLResponse(content=html_content, status_code=400)
+
+    user.hashed_password = bcrypt.hash(new_password)
+    db.commit()
+
+    del reset_tokens[email]
+
+    return HTMLResponse("""
+        <script>
+        alert("✅ Password reset successfully. Please login.");
+        window.location.href = "/login";
+        </script>
+    """)
+

@@ -12,12 +12,37 @@
       background: linear-gradient(135deg, #1e2a38, #0f2027, #203a43);
       color: white;
       display: flex;
-      justify-content: center;
-      align-items: center;
+      flex-direction: column;
       min-height: 100vh;
     }
 
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #1f2937;
+      padding: 1rem 2rem;
+      color: white;
+    }
+
+    .app-name {
+      font-size: 1.4rem;
+      font-weight: bold;
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      margin-left: 1.2rem;
+      font-weight: 500;
+    }
+
+    .navbar a:hover {
+      text-decoration: underline;
+    }
+
     .container {
+      flex: 1;
       background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(8px);
       border: 1px solid rgba(255, 255, 255, 0.1);
@@ -25,6 +50,7 @@
       padding: 2rem 2.5rem;
       width: 90%;
       max-width: 500px;
+      margin: 3rem auto;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
       animation: fadeIn 0.6s ease;
     }
@@ -55,7 +81,7 @@
       margin: 1rem 0;
     }
 
-    a {
+    a.button-link {
       display: inline-block;
       text-decoration: none;
       padding: 0.75rem 1.2rem;
@@ -67,19 +93,46 @@
       transition: background 0.3s;
     }
 
-    a:hover {
+    a.button-link:hover {
       background: #2563eb;
+    }
+
+    .dashboard-btn {
+      margin-top: 2rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    footer {
+      background-color: #1f2937;
+      color: #ccc;
+      text-align: center;
+      padding: 1rem 0;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
+  <header>
+    <div class="app-name">💸 Bill Splitter</div>
+    <nav class="navbar">
+    </nav>
+  </header>
   <div class="container">
     <h1>👋 Welcome, {{ request.session.get('name') }}<br>to User Settings</h1>
 
     <ul>
-      <li><a href="/request-delete-otp?email={{ request.session['email'] }}">🗑️ Delete My Account</a></li>
-      <li><a href="/logout">🚪 Logout</a></li>
+      <li><a class="button-link" href="/request-delete-otp?email={{ request.session['email'] }}">🗑️ Delete My Account</a></li>
+      <li><a class="button-link" href="/logout">🚪 Logout</a></li>
     </ul>
+
+    <div class="dashboard-btn">
+      <a class="button-link" href="/dashboard">⬅️ Back to Dashboard</a>
+    </div>
   </div>
+
+  <footer>
+    &copy; 2025 SplitSmart | All rights reserved
+  </footer>
 </body>
 </html>
