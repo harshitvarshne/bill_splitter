@@ -1272,7 +1272,7 @@ def handle_forgot_password(
     if user:
         token = str(uuid.uuid4())
         reset_tokens[email] = token
-        reset_link = f"http://localhost:8000/reset-password?email={email}&token={token}"
+        reset_link = f"https://bill-splitter-rizc.onrender.com/reset-password?email={email}&token={token}"
 
         # Send reset link (you could send via email; here, just print)
         send_otp_email(email, f"Click the link to reset your password:\n\n{reset_link}")
