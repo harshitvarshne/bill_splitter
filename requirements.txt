@@ -18,8 +18,12 @@ numpy==2.2.3
 mysql-connector-python==8.3.0
 psycopg2-binary==2.9.10
 itsdangerous==2.2.0
+Jinja2==3.1.6
+
+
 fastapi
 passlib
 pytesseract
+
 
 
