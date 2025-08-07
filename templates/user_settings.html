@@ -113,11 +113,13 @@
   </style>
 </head>
 <body>
+  {% if not dashboard %}
   <header>
     <div class="app-name">💸 Bill Splitter</div>
     <nav class="navbar">
     </nav>
   </header>
+  {% endif %}
   <div class="container">
     <h1>👋 Welcome, {{ request.session.get('name') }}<br>to User Settings</h1>
 
@@ -130,9 +132,10 @@
       <a class="button-link" href="/dashboard">⬅️ Back to Dashboard</a>
     </div>
   </div>
-
+{% if not dashboard %}
   <footer>
     &copy; 2025 SplitSmart | All rights reserved
   </footer>
+{% endif %}
 </body>
 </html>
