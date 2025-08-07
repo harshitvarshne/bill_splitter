@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +8,9 @@
   <title>Dashboard - Bill Splitter App</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -24,12 +28,22 @@
       justify-content: space-between;
       align-items: center;
       backdrop-filter: blur(8px);
+      position: relative;
+    }
+
+    header h1 {
+      font-size: 1.3rem;
+      margin: 0;
+    }
+
+    nav {
+      display: flex;
+      gap: 1rem;
     }
 
     nav a {
       color: #fff;
       text-decoration: none;
-      margin-left: 1.5rem;
       font-weight: 500;
     }
 
@@ -37,100 +51,24 @@
       text-decoration: underline;
     }
 
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: white;
+      transition: all 0.3s ease;
+    }
+
     .main {
       flex-grow: 1;
       display: flex;
       flex-wrap: wrap;
-    }
-
-    .hero {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 3rem 4rem;
-      max-width: 900px;
-      margin: auto;
-      animation: fadeInUp 1s ease forwards;
-    }
-
-    .hero h1 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      color: #e0e0ff;
-    }
-
-    .hero p {
-      font-size: 1.25rem;
-      margin-bottom: 2rem;
-      line-height: 1.5;
-      color: #c0c0d0;
-      max-width: 600px;
-    }
-
-    .hero button {
-      background-color: #3b82f6;
-      border: none;
-      color: white;
-      font-weight: 600;
-      padding: 0.75rem 2rem;
-      font-size: 1.1rem;
-      border-radius: 8px;
-      cursor: pointer;
-      box-shadow: 0 5px 15px rgba(59, 130, 246, 0.5);
-      transition: background-color 0.3s ease, transform 0.3s ease;
-    }
-
-    .hero button:hover {
-      background-color: #2563eb;
-      transform: scale(1.05);
-    }
-
-    .features {
-      background-color: rgba(31, 28, 44, 0.9);
-      padding: 3rem 2rem;
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      flex-wrap: wrap;
-      max-width: 1000px;
-      margin: 3rem auto 4rem auto;
-      border-radius: 16px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    }
-
-    .feature-card {
-      background: #28253f;
-      flex: 1 1 280px;
-      border-radius: 12px;
-      padding: 2rem;
-      text-align: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      transition: transform 0.3s ease;
-    }
-
-    .feature-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-    }
-
-    .feature-icon {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      color: #3b82f6;
-    }
-
-    .feature-title {
-      font-size: 1.3rem;
-      font-weight: 700;
-      margin-bottom: 0.75rem;
-      color: #e0e0ff;
-    }
-
-    .feature-desc {
-      font-size: 1rem;
-      color: #b0b0c0;
     }
 
     .sidebar {
@@ -141,6 +79,7 @@
       flex-direction: column;
       gap: 1rem;
       border-right: 1px solid #ffffff22;
+      transition: transform 0.3s ease;
     }
 
     .sidebar button {
@@ -171,27 +110,56 @@
       to { opacity: 1; transform: translateX(0); }
     }
 
-    .centered-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      animation: slideIn 0.4s ease-out forwards;
-      transform: translateX(-20%);
-      opacity: 0;
-      height: 100%;
-      width: 100%;
+    .hero {
+      max-width: 800px;
+      margin: auto;
     }
 
-    @keyframes slideIn {
-      from {
-        transform: translateX(-20%);
-        opacity: 0;
-      }
-      to {
-        transform: translateX(0);
-        opacity: 1;
-      }
+    .hero h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .hero button {
+      background-color: #3b82f6;
+      border: none;
+      color: white;
+      font-weight: 600;
+      padding: 0.75rem 2rem;
+      font-size: 1.1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(59, 130, 246, 0.5);
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .hero button:hover {
+      background-color: #2563eb;
+      transform: scale(1.05);
+    }
+
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: #28253f;
+      flex: 1 1 280px;
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .feature-icon {
+      font-size: 2rem;
     }
 
     footer {
@@ -200,26 +168,72 @@
       font-size: 0.9rem;
       background-color: rgba(0,0,0,0.2);
     }
+
+    @media (max-width: 768px) {
+      .main {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        z-index: 1000;
+        background: rgba(0, 0, 0, 0.9);
+        transform: translateX(-100%);
+      }
+
+      .sidebar.show {
+        transform: translateX(0);
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      nav {
+        display: none;
+      }
+
+      nav.mobile-menu {
+        display: flex;
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        flex-direction: column;
+        background-color: rgba(0,0,0,0.9);
+        padding: 1rem;
+        border-radius: 8px;
+      }
+    }
   </style>
 </head>
 <body>
   <header>
     <h1>Welcome, {{ request.session['name'] }}</h1>
-    <nav>
-      <a href="/dashboard">Home</a>
-      <a href="/settings">User Settings</a>
-      <a href="/logout">Logout</a>
-    </nav>
+    <div class="hamburger" onclick="toggleSidebar()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+<!--    <nav id="topNav">-->
+<!--      <a href="/dashboard">Home</a>-->
+<!--      <a href="/settings">User Settings</a>-->
+<!--      <a href="/logout">Logout</a>-->
+<!--    </nav>-->
   </header>
 
   <div class="main">
-    <div class="sidebar">
+    <div id="sidebar" class="sidebar">
+      <button onclick="loadContent('/dashboard', this)"> 🏠Dashboard</button>
       <button onclick="loadContent('/create-group', this)">➕ Create Group</button>
       <button onclick="loadContent('/my-groups', this)">📂 View Created Groups</button>
       <button onclick="loadContent('/manual-split', this)">💵 Manual Bill Split</button>
       <button onclick="loadContent('/create-trip', this)">🧳 Create New Trip</button>
       <button onclick="loadContent('/trip-history', this)">📜 View Trip History</button>
       <button onclick="loadContent('/my-settlements', this)">📃 Settlements</button>
+      <button onclick="loadContent('/settings', this)">⚙️ Settings</button>
     </div>
 
     <div id="content" class="content">
@@ -228,21 +242,21 @@
         <p>Manage shared expenses with friends, roommates, or colleagues. Track who owes what, settle up, and keep relationships friendly.</p>
       </section>
 
-      <section class="features" aria-label="App Features">
+      <section class="features">
         <div class="feature-card">
           <div class="feature-icon">💡</div>
-          <div class="feature-title">Simple to Use</div>
-          <div class="feature-desc">User-friendly interface designed to make bill splitting effortless.</div>
+          <h3>Simple to Use</h3>
+          <p>User-friendly interface designed to make bill splitting effortless.</p>
         </div>
         <div class="feature-card">
           <div class="feature-icon">🔒</div>
-          <div class="feature-title">Secure</div>
-          <div class="feature-desc">Your data is protected with industry-standard security practices.</div>
+          <h3>Secure</h3>
+          <p>Your data is protected with industry-standard security practices.</p>
         </div>
         <div class="feature-card">
           <div class="feature-icon">⚡</div>
-          <div class="feature-title">Fast Settlements</div>
-          <div class="feature-desc">Calculate and settle debts quickly to keep your finances clear.</div>
+          <h3>Fast Settlements</h3>
+          <p>Calculate and settle debts quickly to keep your finances clear.</p>
         </div>
       </section>
     </div>
@@ -256,7 +270,7 @@
     function loadContent(url, button) {
       document.querySelectorAll('.sidebar button').forEach(btn => btn.classList.remove('active'));
       button.classList.add('active');
-
+      document.getElementById('sidebar').classList.remove('show');
       fetch(url)
         .then(response => response.text())
         .then(html => {
@@ -265,6 +279,11 @@
         .catch(() => {
           document.getElementById('content').innerHTML = `<p style="color:red;">❌ Failed to load content from ${url}</p>`;
         });
+    }
+
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('show');
     }
   </script>
 </body>
